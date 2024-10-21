@@ -32,6 +32,6 @@ export function format(sql, options) {
     linesBetweenQueries: options.lines_between_queries,
     denseOperators: options.dense_operators,
     newlineBeforeSemicolon: options.newline_before_semicolon,
-    dialect: dialect_to_string(options.dialect),
+    language: dialect_to_string(options.dialect),
   });
 }

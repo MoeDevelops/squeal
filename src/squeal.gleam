@@ -214,7 +214,10 @@ fn get_sql_files(dir: String, files: List(String)) -> List(String) {
     let full_path = filepath.join(dir, path)
     let file_type = case simplifile.file_info(full_path) {
       Ok(info) -> info |> simplifile.file_info_type()
-      Error(_) -> simplifile.Other
+      Error(_) -> {
+        io.println_error("Couldn't get file-type of '" <> full_path <> "'.")
+        simplifile.Other
+      }
     }
 
     case file_type, path |> string.ends_with(".sql") {
