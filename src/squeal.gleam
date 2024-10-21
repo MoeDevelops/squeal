@@ -1,5 +1,6 @@
 import argv
 import filepath
+import gleam/io
 import gleam/list
 import gleam/result
 import gleam/string
@@ -210,15 +211,12 @@ fn get_sql_files(dir: String, files: List(String)) -> List(String) {
   let assert Ok(contents) = simplifile.read_directory(dir)
   contents
   |> list.map(fn(path) {
-    case simplifile.file_info(path) {
-      Ok(info) -> Ok(#(path, info |> simplifile.file_info_type()))
-      _ -> Error(Nil)
-    }
-  })
-  |> result.values()
-  |> list.map(fn(file) {
-    let #(path, file_type) = file
     let full_path = filepath.join(dir, path)
+    let file_type = case simplifile.file_info(full_path) {
+      Ok(info) -> info |> simplifile.file_info_type()
+      Error(_) -> simplifile.Other
+    }
+
     case file_type, path |> string.ends_with(".sql") {
       simplifile.File, True -> Ok([full_path, ..files])
       simplifile.Directory, _ -> Ok(get_sql_files(full_path, files))
