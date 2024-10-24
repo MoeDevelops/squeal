@@ -1,0 +1,11 @@
+---
+version: 1.2.3
+title: default format test
+file: ./test/squeal_test.gleam
+test_name: default_format_test
+---
+SELECT
+  NAME,
+  AGE
+FROM
+  USERS

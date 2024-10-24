@@ -1,0 +1,11 @@
+---
+version: 1.2.3
+title: format lower
+file: ./test/squeal_test.gleam
+test_name: format_lower_test
+---
+select
+  name,
+  age
+from
+  users

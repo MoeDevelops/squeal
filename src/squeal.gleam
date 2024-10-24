@@ -127,7 +127,7 @@ pub fn dialect_to_string(dialect: Dialect) -> String {
 }
 
 @external(javascript, "./squeal_ffi.mjs", "format")
-pub fn format(sql: String, options: FormatOptions) -> String
+pub fn format(sql: String, options: FormatOptions) -> Result(String, String)
 
 // CLI
 
@@ -200,8 +200,10 @@ fn execute() -> glint.Command(Nil) {
   get_sql_files(dir, [])
   |> list.map(fn(file) {
     let assert Ok(content) = simplifile.read(file)
-    let formatted = format(content, options)
-    simplifile.write(file, formatted)
+    case format(content, options) {
+      Ok(formatted) -> simplifile.write(file, formatted)
+      Error(message) -> panic as message
+    }
   })
 
   Nil

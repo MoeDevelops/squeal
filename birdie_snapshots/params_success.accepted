@@ -1,0 +1,13 @@
+---
+version: 1.2.3
+title: params success
+file: ./test/squeal_test.gleam
+test_name: format_params_success_test
+---
+SELECT
+  NAME,
+  AGE
+FROM
+  USERS
+WHERE
+  NAME = $1

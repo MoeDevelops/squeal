@@ -1,5 +1,5 @@
 name = "squeal"
-version = "1.0.0"
+version = "1.1.0"
 target = "javascript"
 
 # Fill out these fields if you intend to generate HTML documentation or publish
@@ -22,3 +22,4 @@ filepath = ">= 1.0.0 and < 2.0.0"
 
 [dev-dependencies]
 gleeunit = ">= 1.0.0 and < 2.0.0"
+birdie = ">= 1.2.3 and < 2.0.0"
