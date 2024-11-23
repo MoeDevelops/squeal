@@ -2,7 +2,7 @@ import {
   casing_to_string,
   indent_style_to_string,
   dialect_to_string,
-} from "./squeal.mjs";
+} from "./squeal/sql_formatter.mjs";
 import { format as jsformat } from "./sql-formatter.mjs";
 import { Ok, Error } from "./gleam.mjs";
 

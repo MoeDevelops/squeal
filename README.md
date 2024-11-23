@@ -31,6 +31,20 @@ gleam run -m squeal -- --width=4 --identifiercase=lower
 --width=<INT>
 ```
 
+## Parameters
+
+If you use parameters like
+
+```sql
+select name from users where id = $1
+```
+
+you need to configure the sql dialect
+
+```sh
+gleam run -m squeal -- --dialect=postgres
+```
+
 ## Example
 
 SQL-File:
