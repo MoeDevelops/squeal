@@ -10,12 +10,13 @@ Squeal formats all `*.sql` files in your current directory and subdirectories
 ```sh
 gleam add --dev squeal@1
 gleam run -m squeal
-gleam run -m squeal -- --width=4 --identifiercase=lower
+gleam run -m squeal -- --width=4 --identifiercase=lower --exclude=sql/do_not_format.sql
 ```
 
 ## Flags
 
-```
+```string
+--exclude=<STRINGS>
 --datatypecase=preserve|upper|lower
 --denseoperators=<BOOL>
 --dialect=sql|postgres|sqlite|mysql|mariasql
@@ -48,25 +49,34 @@ gleam run -m squeal -- --dialect=postgres
 ## Example
 
 SQL-File:
+
 ```sql
 select * FROM users
 ```
+
 Command:
+
 ```sh
 gleam run -m squeal -- --width=4 --identifiercase=lower
 ```
+
 SQL-File:
+
 ```sql
 SELECT
     *
 FROM
     users
 ```
+
 Command:
+
 ```sh
 gleam run -m squeal -- --width=2 --identifiercase=lower --keywordcase=lower
 ```
+
 SQL-File:
+
 ```sql
 select
   *

@@ -1,5 +1,6 @@
 import argv
 import filepath
+import gleam/bool
 import gleam/io
 import gleam/list
 import gleam/result
@@ -23,6 +24,9 @@ fn nil_error(result) {
 const default = sql_formatter.default_options
 
 fn execute() -> glint.Command(Nil) {
+  let assert Ok(dir) = simplifile.current_directory()
+
+  use exclude <- glint.flag(exclude_flag())
   use width <- glint.flag(width_flag())
   use tabs <- glint.flag(tabs_flag())
   use keywordcase <- glint.flag(keywordcase_flag())
@@ -38,6 +42,10 @@ fn execute() -> glint.Command(Nil) {
   use dialect <- glint.flag(dialect_flag())
   use _, _, flags <- glint.command()
 
+  let assert Ok(exclude) = exclude(flags)
+  let exclude =
+    exclude
+    |> list.map(fn(path) { filepath.join(dir, path) })
   let assert Ok(width) = width(flags)
   let assert Ok(tabs) = tabs(flags)
   let assert Ok(keywordcase) =
@@ -87,8 +95,12 @@ fn execute() -> glint.Command(Nil) {
       dialect: dialect,
     )
 
-  let assert Ok(dir) = simplifile.current_directory()
   get_sql_files(dir, [])
+  |> list.filter(fn(file) {
+    exclude
+    |> list.contains(file)
+    |> bool.negate()
+  })
   |> list.map(fn(file) {
     let assert Ok(content) = simplifile.read(file)
     case sql_formatter.format(content, options) {
@@ -121,6 +133,11 @@ fn get_sql_files(dir: String, files: List(String)) -> List(String) {
   })
   |> result.values()
   |> list.flatten()
+}
+
+fn exclude_flag() {
+  glint.strings_flag("exclude")
+  |> glint.flag_default([])
 }
 
 fn width_flag() {
