@@ -8,10 +8,13 @@
 mkdir temp
 cd temp
 
-git clone https://github.com/sql-formatter-org/sql-formatter .
+# Update branch when updating
+git clone https://github.com/sql-formatter-org/sql-formatter . --branch v15.5.2
 
 yarn
-esbuild src/index.ts --outdir=build --bundle --format=esm --minify
+yarn grammar
+yarn build:esm
+esbuild dist/esm/index.js --outdir=build --bundle --format=esm --minify
 
 cd ..
 mv temp/build/index.js src/sql-formatter.mjs

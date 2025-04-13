@@ -16,6 +16,10 @@ pub fn main() {
   |> glint.run(argv.load().arguments)
 }
 
+fn nil_error(result) {
+  result.replace_error(result, Nil)
+}
+
 const default = sql_formatter.default_options
 
 fn execute() -> glint.Command(Nil) {
@@ -38,23 +42,23 @@ fn execute() -> glint.Command(Nil) {
   let assert Ok(tabs) = tabs(flags)
   let assert Ok(keywordcase) =
     keywordcase(flags)
-    |> result.nil_error()
+    |> nil_error()
     |> result.then(sql_formatter.casing_from_string)
   let assert Ok(identifiercase) =
     identifiercase(flags)
-    |> result.nil_error()
+    |> nil_error()
     |> result.then(sql_formatter.casing_from_string)
   let assert Ok(datatypecase) =
     datatypecase(flags)
-    |> result.nil_error()
+    |> nil_error()
     |> result.then(sql_formatter.casing_from_string)
   let assert Ok(functioncase) =
     functioncase(flags)
-    |> result.nil_error()
+    |> nil_error()
     |> result.then(sql_formatter.casing_from_string)
   let assert Ok(indentstyle) =
     indentstyle(flags)
-    |> result.nil_error()
+    |> nil_error()
     |> result.then(sql_formatter.indent_style_from_string)
   let assert Ok(logicalopnewline) = logicalopnewline(flags)
   let assert Ok(expressionwidth) = expressionwidth(flags)
@@ -63,7 +67,7 @@ fn execute() -> glint.Command(Nil) {
   let assert Ok(newlinesemi) = newlinesemi(flags)
   let assert Ok(dialect) =
     dialect(flags)
-    |> result.nil_error()
+    |> nil_error()
     |> result.then(sql_formatter.dialect_from_string)
 
   let options =
